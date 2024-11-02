@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+message=$(cat << "EOF"
+WordPress Coding Standards Code Review - GitHub Action by
+ _     _  _   _   ____  _   _  ____  __  _   _ 
+| |   | || \ | | / ___|| | | ||  _ \|  || \ | |
+| |   | ||  \| || |    | |_| || |_) |  ||  \| |
+| |__ | || |\  || |___ |  _  ||  __/|  || |\  |
+|____||_||_| \_| \____||_| |_||_|   |__||_| \_|
+EOF
+)
 
 ## Logging functions
 # Arguments: Message.
@@ -40,12 +49,6 @@ if [[ -z "$GITHUB_REPOSITORY_NAME" ]] || [[ -z "$GITHUB_REPOSITORY_OWNER" ]] || 
   echo $( error_message "One or more of the following variables are not set: GITHUB_REPOSITORY_NAME, GITHUB_REPOSITORY_OWNER, COMMIT_ID" )
 
   exit 1
-fi
-
-if [[ -n "$VAULT_TOKEN" ]]; then
-  GH_BOT_TOKEN=$(vault read -field=token secret/rtBot-token)
-
-    echo "::warning ::Support for HashiCorp Vault will be discontinued in the future. Please use GitHub Action Secrets to store the secrets. Refer https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository to know more about GitHub Action Secrets."
 fi
 
 # Remove trailing and leading whitespaces. At times copying token can give leading space.
@@ -114,7 +117,7 @@ CMD+=( "--local-git-repo=$DOCKER_GITHUB_WORKSPACE" )
 if [[ -n "$NAME_TO_USE" ]]; then
   CMD+=( "--name-to-use=$NAME_TO_USE" )
 else
-  CMD+=( "--name-to-use=[action-phpcs-code-review](https://github.com/rtCamp/action-phpcs-code-review/)")
+  CMD+=( "--name-to-use=[action-phpcs-code-review](https://github.com/linchpin/action-phpcs-code-review/)")
 fi
 
 ################################################################################
@@ -291,11 +294,11 @@ CMD+=( "--report-no-issues-found=false" )
 
 #######################################
 # Set the --informational-msg
-# Default: Powered by rtCamp's [GitHub Actions Library](https://github.com/rtCamp/github-actions-library/)
+# Default: Powered by rtCamp's [PHP Code Review](https://github.com/linchpin/action-phpcs-code-review/)
 # Options: STRING (Message to be included in the comment)
 #######################################
 if [[ -z "$INFORMATIONAL_MSG" ]]; then
-  informational_msg="Powered by rtCamp's [GitHub Actions Library](https://github.com/rtCamp/github-actions-library)"
+  informational_msg="Powered by Linchpin's [WPCS Review](https://github.com/linchpin/action-phpcs-code-review)"
 else
   informational_msg="$INFORMATIONAL_MSG"
 fi
@@ -362,7 +365,7 @@ if [[ "$ENABLE_STATUS_CHECKS" == "true" ]]; then
   esac
 
 
-  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$GITHUB_REPOSITORY_OWNER" --repo-name="$GITHUB_REPOSITORY_NAME" --github-token="$GH_BOT_TOKEN" --github-commit="$COMMIT_ID" --build-context='PHPCS Code Review by rtCamp' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
+  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$GITHUB_REPOSITORY_OWNER" --repo-name="$GITHUB_REPOSITORY_NAME" --github-token="$GH_BOT_TOKEN" --github-commit="$COMMIT_ID" --build-context='PHPCS Code Review by Linchpin' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
 else
   "${PHPCS_CMD[@]}"
 fi

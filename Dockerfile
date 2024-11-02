@@ -1,17 +1,15 @@
-# ubuntu:latest as of 2023-11-15T09:52:14.989810029UTC
-FROM ubuntu@sha256:2b7412e6465c3c7fc5bb21d3e6f1917c167358449fecac8176c6e496e5c1f05f
+FROM ubuntu:latest
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
 LABEL "com.github.actions.name"="PHPCS Code Review"
 LABEL "com.github.actions.description"="Run automated code review using PHPCS on your pull requests."
-LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
+LABEL "org.opencontainers.image.source"="https://github.com/linchpin/action-phpcs-code-review"
 
-ARG VAULT_VERSION=1.12.3
-ARG DEFAULT_PHP_VERSION=8.1
-ARG PHP_BINARIES_TO_PREINSTALL='7.4 8.0 8.1 8.2'
+ARG DEFAULT_PHP_VERSION=8.2
+ARG PHP_BINARIES_TO_PREINSTALL='7.4 8.0 8.1 8.2 8.3'
 
-ENV DOCKER_USER=rtbot
+ENV DOCKER_USER=linchpin-bot
 ENV ACTION_WORKDIR=/home/$DOCKER_USER
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -34,11 +32,7 @@ RUN set -ex \
       php"$v"-xmlwriter; \
     done \
   && update-alternatives --set php /usr/bin/php${DEFAULT_PHP_VERSION} \
-  && wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip \
-  && unzip vault_${VAULT_VERSION}_linux_amd64.zip \
-  && mv vault /usr/local/bin/vault \
   # cleanup
-  && rm -f vault_${VAULT_VERSION}_linux_amd64.zip \
   && apt-get remove software-properties-common unzip -y \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && { [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; } \
@@ -54,8 +48,7 @@ RUN set -ex \
   && for v in $PHP_BINARIES_TO_PREINSTALL; do \
       php"$v" -v; \
     done \
-  && php -v \
-  && vault -v;
+  && php -v;
 
 COPY entrypoint.sh main.sh /usr/local/bin/
 
@@ -65,7 +58,7 @@ USER $DOCKER_USER
 
 WORKDIR $ACTION_WORKDIR
 
-RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/latest/tools-init.sh -O tools-init.sh \
+RUN wget https://raw.githubusercontent.com/linchpin/vip-go-ci/latest/tools-init.sh -O tools-init.sh \
   && bash tools-init.sh \
   && rm -f tools-init.sh
 

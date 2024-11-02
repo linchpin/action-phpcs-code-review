@@ -1,15 +1,15 @@
-This action is a part of [GitHub Actions Library](https://github.com/rtCamp/github-actions-library/) created by [rtCamp](https://github.com/rtCamp/).
+This action is fork of [PHPCS Code Review](https://github.com/rtCamp/action-phpcs-code-review/) created by [rtCamp](https://github.com/rtCamp/) and is basically a wrapper for [VIP-GO-CI](https://github.com/automattic/vip-go-ci#skipping-certain-folders) from Automattic.
 
 # PHPCS Code Review - GitHub Action
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
-A [GitHub Action](https://github.com/features/actions) to perform automated [pull request review](https://help.github.com/en/articles/about-pull-request-reviews). It is based on https://github.com/Automattic/vip-go-ci/ but can be used for any WordPress or even PHP projects.
+A [GitHub Action](https://github.com/features/actions) to perform automated [pull request review](https://help.github.com/en/articles/about-pull-request-reviews). It is based on https://github.com/Automattic/vip-go-ci/ and can be used for any WordPress.
 
 The code review is performed using [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer).
 
-Please note that, this action performs pull request review *only*. If you have an existing project, and you want entire project's code to be reviwed, you may need to do it manually.
+Please note that, this action performs pull request review *only*. If you have an existing project, and you want entire project's code to be reviewed, you may need to do it manually.
 
 ## Usage
 
@@ -25,11 +25,11 @@ jobs:
     name: Run PHPCS inspection
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Run PHPCS inspection
-      uses: rtCamp/action-phpcs-code-review@v3
+      uses: linchpin/action-phpcs-code-review@v4
       env:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         SKIP_FOLDERS: "tests,.github"
@@ -184,8 +184,4 @@ Please note...
 
 ## License
 
-[MIT](LICENSE) © 2019 rtCamp
-
-## Does this interest you?
-
-<a href="https://rtcamp.com/"><img src="https://rtcamp.com/wp-content/uploads/sites/2/2019/04/github-banner@2x.png" alt="Join us at rtCamp, we specialize in providing high performance enterprise WordPress solutions"></a>
+[MIT](LICENSE) © 2024 Linchpin

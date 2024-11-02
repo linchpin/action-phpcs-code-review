@@ -1,9 +1,9 @@
 name: 'PHPCS Code Review'
 description: 'This will run phpcs on PRs'
-author: 'rtCamp'
+author: 'linchpin'
 runs:
-  using: 'docker'
-  image: 'docker://ghcr.io/rtcamp/action-phpcs-code-review:v3.0.1'
+  using: docker
+  image: DockerFile
 branding:
   icon: 'check-circle'
   color: 'green'
