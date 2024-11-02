@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
-LABEL "com.github.actions.name"="PHPCS Code Review"
+LABEL "com.github.actions.name"="WordPress Coding Standards Review"
 LABEL "com.github.actions.description"="Run automated code review using PHPCS on your pull requests."
 LABEL "org.opencontainers.image.source"="https://github.com/linchpin/action-phpcs-code-review"
 
@@ -58,7 +58,7 @@ USER $DOCKER_USER
 
 WORKDIR $ACTION_WORKDIR
 
-RUN wget https://raw.githubusercontent.com/linchpin/vip-go-ci/latest/tools-init.sh -O tools-init.sh \
+RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/latest/tools-init.sh -O tools-init.sh \
   && bash tools-init.sh \
   && rm -f tools-init.sh
 
